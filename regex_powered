@@ -1,0 +1,33 @@
+#task 1
+
+import re
+
+def extract_emails(filename):
+    try:
+        # Open the file for reading
+        with open(filename, 'r') as file:
+            # Read the contents of the file
+            contents = file.read()
+
+            # Use regex to find all email addresses
+            email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+            emails = re.findall(email_pattern, contents)
+
+            # Print unique email addresses
+            unique_emails = set(emails)
+            print("Unique Email Addresses:")
+            for email in unique_emails:
+                print(email)
+
+    except FileNotFoundError:
+        print("File not found.")
+    except PermissionError:
+        print("Permission denied to access the file.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Provide the filename
+filename = "contacts.txt"
+
+# Call the function to extract emails
+extract_emails(filename)

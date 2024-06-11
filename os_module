@@ -1,0 +1,84 @@
+#task 1
+
+import os
+
+def list_directory_contents(path):
+    # List all files and subdirectories in the given path
+    contents = os.listdir(path)
+    
+    # Print each item in the contents list
+    for item in contents:
+        print(item)
+
+# Prompt the user for a directory path
+directory_path = input("Enter the directory path: ")
+
+# Call the function to list directory contents
+list_directory_contents(directory_path)
+
+
+
+#task 2
+
+import os
+
+def report_file_sizes(directory):
+    try:
+        # Iterate through files in the directory
+        for filename in os.listdir(directory):
+            filepath = os.path.join(directory, filename)
+            # Check if the path is a file
+            if os.path.isfile(filepath):
+                # Get the size of the file
+                size = os.path.getsize(filepath)
+                print(f"File: {filename}, Size: {size} bytes")
+    except FileNotFoundError:
+        print("Directory not found.")
+    except PermissionError:
+        print("Permission denied to access the directory.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Prompt the user for a directory path
+directory_path = input("Enter the directory path: ")
+
+# Call the function to report file sizes
+report_file_sizes(directory_path)
+
+
+#task 3
+
+import os
+
+def count_file_extensions(directory):
+    try:
+        # Create an empty dictionary to store file extension counts
+        extension_counts = {}
+
+        # Iterate through files in the directory
+        for filename in os.listdir(directory):
+            filepath = os.path.join(directory, filename)
+            # Check if the path is a file
+            if os.path.isfile(filepath):
+                # Extract the file extension
+                _, extension = os.path.splitext(filename)
+                # Convert the extension to lowercase for consistency
+                extension = extension.lower()
+                # Update the count for the extension
+                extension_counts[extension] = extension_counts.get(extension, 0) + 1
+
+        # Print the counts for each extension
+        for extension, count in extension_counts.items():
+            print(f"{extension.upper()}: {count}")
+    except FileNotFoundError:
+        print("Directory not found.")
+    except PermissionError:
+        print("Permission denied to access the directory.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Prompt the user for a directory path
+directory_path = input("Enter the directory path: ")
+
+# Call the function to count file extensions
+count_file_extensions(directory_path)

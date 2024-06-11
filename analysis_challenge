@@ -1,0 +1,92 @@
+#task 1
+
+import re
+
+def analyze_sentiment(filename):
+    try:
+        # Open the file for reading
+        with open(filename, 'r') as file:
+            # Read the contents of the file
+            contents = file.read()
+
+            # Define positive and negative word lists
+            positive_words = ["amazing", "enjoy", "beautiful", "wonderful", "memorable", "fantastic", "excellent"]
+            negative_words = ["disappointing", "poor", "sad", "scarce", "bad"]
+
+            # Count occurrences of positive and negative words
+            positive_count = sum(1 for word in positive_words if re.search(r'\b{}\b'.format(word), contents, re.IGNORECASE))
+            negative_count = sum(1 for word in negative_words if re.search(r'\b{}\b'.format(word), contents, re.IGNORECASE))
+
+            # Print results
+            print("Sentiment Analysis Results:")
+            print("Positive words count:", positive_count)
+            print("Negative words count:", negative_count)
+
+    except FileNotFoundError:
+        print("File not found.")
+    except PermissionError:
+        print("Permission denied to access the file.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Provide the filename
+filename = "travel_blogs.txt"
+
+# Call the function to analyze sentiment
+analyze_sentiment(filename)
+
+
+
+#task 2
+
+import os
+import re
+
+def compile_weather_data(directory):
+    # Dictionary to store average temperatures for each year
+    yearly_temperatures = {}
+
+    try:
+        # Iterate through files in the directory
+        for filename in os.listdir(directory):
+            if filename.startswith("weather_") and filename.endswith(".txt"):
+                year = int(filename.split("_")[1].split(".")[0])  # Extract year from filename
+
+                # Open the file for reading
+                with open(os.path.join(directory, filename), 'r') as file:
+                    # Read temperature data from the file
+                    contents = file.read()
+
+                    # Extract temperature values using regular expression
+                    temperatures = [int(match.group(1)) for match in re.finditer(r'(\d+)°C', contents)]
+
+                    # Calculate average temperature for the year
+                    average_temperature = sum(temperatures) / len(temperatures)
+
+                    # Store average temperature for the year in the dictionary
+                    yearly_temperatures[year] = average_temperature
+
+        # Find the year with the highest average temperature
+        max_year = max(yearly_temperatures, key=yearly_temperatures.get)
+
+        # Print the aggregated view of average temperatures for each year
+        print("Yearly Average Temperatures:")
+        for year, temperature in yearly_temperatures.items():
+            print(f"{year}: {temperature}°C")
+
+        # Print the year with the highest average temperature
+        print(f"\nYear with the highest average temperature: {max_year} ({yearly_temperatures[max_year]}°C)")
+
+    except FileNotFoundError:
+        print("Directory not found.")
+    except PermissionError:
+        print("Permission denied to access the directory.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Provide the directory containing weather data files
+directory = "weather_data"
+
+# Call the function to compile and analyze weather data
+compile_weather_data(directory)
+
